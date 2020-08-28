@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const PlayerSchema = mongoose.Schema({
+let playerModel = mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -17,6 +17,10 @@ const PlayerSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  sizePref: {
+    type: Number,
+    required: true,
+  },
   campaignsPlayed: {
     type: Number,
     required: true,
@@ -25,52 +29,37 @@ const PlayerSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  preferences: [
-    {
-      sizePref: {
-        type: Number,
-        required: true,
-      },
-      systemsPref: {
-        type: [String],
-        required: true,
-      },
-      genresPref: {
-        type: [String],
-        required: true,
-      },
-      combat: {
-        type: String,
-        required: true,
-      },
-      sexualContent: {
-        type: String,
-        required: true,
-      },
-      humor: {
-        type: String,
-        required: true,
-      },
-      violence: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  systemsPref: {
+    type: [String],
+    required: true,
+  },
+  genresPref: {
+    type: [String],
+    required: true,
+  },
+  combat: {
+    type: String,
+    required: true,
+  },
+  sexualContent: {
+    type: String,
+    required: true,
+  },
+  humor: {
+    type: String,
+    required: true,
+  },
+  violence: {
+    type: String,
+    required: true,
+  },
   groups: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Group',
-  },
-  lfg: {
-    type: Boolean,
-  },
-  requests: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'GroupRequest',
+    ref: "Group",
   },
 });
 
-PlayerSchema.set('toJSON', {
+playerModel.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -79,4 +68,4 @@ PlayerSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Player', PlayerSchema);
+module.exports = mongoose.model("players", playerModel);

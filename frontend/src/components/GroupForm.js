@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
-import './group-form.css';
+import { useHistory } from 'react-router-dom';
 
 const GroupForm = (props) => {
   const [name, setName] = useState('');
@@ -21,7 +21,7 @@ const GroupForm = (props) => {
   const [humor, setHumor] = useState(0);
   const [violence, setViolence] = useState(0);
   const [description, setDescription] = useState('');
-
+  let history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
     let date = new Date(meetingDate + 'T' + meetingTime);
@@ -39,13 +39,14 @@ const GroupForm = (props) => {
       humor,
       violence,
       description,
+      players: [],
     };
     axios
       .post('http://localhost:5000/groups/createGroup', data, {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
+        history.push('/home');
       })
       .catch((err) => {
         console.log(err);

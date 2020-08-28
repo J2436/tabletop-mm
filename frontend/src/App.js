@@ -1,44 +1,58 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Groups from './pages/groups';
-import Profile from './pages/profile';
-import Players from './pages/players';
-import Landing from './pages/landing';
-import Home from './pages/home';
-import GroupForm from './components/group-form';
+import Groups from './pages/Groups';
+import Profile from './pages/Profile';
+import Players from './pages/Players';
+import Landing from './pages/Landing';
+import Home from './pages/Home';
+import GroupForm from './components/GroupForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ProtectedRoute } from './ProtectedRoute';
 import LoginService from './services/login';
-import UserContext from './context/user.context';
 
 const App = () => {
-  const [userID, setUserID] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    LoginService.isLoggedIn()
+      .then(() => setAuthenticated(true))
+      .catch(() => setAuthenticated(false));
+  }, []);
 
   return (
-    <UserContext.Provider value={{ userID, loggedIn }}>
-      <Router>
-        <Switch>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/players">
-            <Players />
-          </Route>
-          <Route path="/groups">
-            <Groups />
-          </Route>
-          <Route path="/groupForm">
-            <GroupForm />
-          </Route>
-          <Route path="/">
-            <Landing />
-          </Route>
-        </Switch>
-      </Router>
-    </UserContext.Provider>
+    <Router>
+      <Switch>
+        <ProtectedRoute
+          path="/home"
+          component={Home}
+          authenticated={{ authenticated }}
+        />
+        <ProtectedRoute
+          path="/profile"
+          component={Profile}
+          authenticated={{ authenticated }}
+        />
+        <ProtectedRoute
+          path="/players"
+          component={Players}
+          authenticated={{ authenticated }}
+        />
+        <ProtectedRoute
+          path="/groups"
+          component={Groups}
+          authenticated={{ authenticated }}
+        />
+        <ProtectedRoute
+          path="/groupForm"
+          component={GroupForm}
+          authenticated={{ authenticated }}
+        />
+        <Route exact path="/">
+          <Landing authenticated={authenticated} />
+        </Route>
+        <Route path="*" component={() => '404 NOT FOUND'} />
+      </Switch>
+    </Router>
   );
 };
 

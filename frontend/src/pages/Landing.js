@@ -1,24 +1,16 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/landing.css';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import { Container, ButtonToolbar, Modal } from 'react-bootstrap';
-import LoginForm from '../components/login-form';
-import RegistrationForm from '../components/registration-form';
-import LoginService from '../services/login';
-import UserContext from '../context/user.context';
+import LoginForm from '../components/LoginForm';
+import RegistrationForm from '../components/RegistrationForm';
 
-const Landing = (props) => {
+const Landing = () => {
   const [showLoginModal, setLoginModal] = useState(false);
   const [showRegisterModal, setRegisterModal] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  useEffect(() => {
-    LoginService.checkLoggedIn().then((response) => {
-      console.log(response);
-    });
-  }, []);
 
   const toggleLoginModal = () => {
     setLoginModal(!showLoginModal);
@@ -33,7 +25,12 @@ const Landing = (props) => {
   return (
     <Jumbotron fluid className="jumbotron">
       <Container>
-        <h1 className="text-center">Tabletop Matchmaker</h1>
+        <h1
+          className="text-center"
+          style={{ fontFamily: ['Fjalla One', 'sans-serif'] }}
+        >
+          Tabletop Matchmaker
+        </h1>
         <hr />
         <div className="text-center">
           <ButtonToolbar className="custom-btn-toolbar">

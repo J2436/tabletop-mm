@@ -1,12 +1,18 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
-import TabletopService from '../services/login';
+import LoginService from '../services/login';
+import { useHistory } from 'react-router-dom';
 
 const Navbar = () => {
+  let history = useHistory();
+
   const handleLogout = () => {
-    console.log('logged out!');
+    LoginService.logout().then((res) => {
+      history.push('/');
+    });
   };
+
   return (
     <Nav>
       <LinkContainer to="/home">
@@ -21,12 +27,8 @@ const Navbar = () => {
         <Nav.Link>Players</Nav.Link>
       </LinkContainer>
 
-      <LinkContainer to="/groups">
-        <Nav.Link>Groups</Nav.Link>
-      </LinkContainer>
-
       <LinkContainer to="/">
-        <Nav.Link className="ml-auto" onClick={TabletopService.logout}>
+        <Nav.Link className="ml-auto" onClick={handleLogout}>
           Logout
         </Nav.Link>
       </LinkContainer>

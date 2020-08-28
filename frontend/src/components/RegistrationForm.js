@@ -1,13 +1,12 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import './registration-form.css';
-import axios from 'axios';
-import UserContext from '../context/user.context';
+import PlayerService from '../services/player';
+import './styles/RegistrationForm.css';
 
 const RegistrationForm = () => {
   const [screenName, setScreenName] = useState('');
@@ -23,8 +22,6 @@ const RegistrationForm = () => {
   const [violence, setViolence] = useState(1);
   const [systemsPref, setSystemsPref] = useState([0, 4]);
   const [genresPref, setGenresPref] = useState([0, 4]);
-
-  const { userID, loggedIn } = useContext(UserContext);
 
   const handleRegister = (event) => {
     let genres = ['Fantasy', 'Sci-Fi', 'Steampunk', 'Horror', 'Gothic'];
@@ -54,7 +51,9 @@ const RegistrationForm = () => {
       systemsPref: selectedSystems,
       genresPref: selectedGenres,
     };
-    axios.post('http://localhost:5000/players', data).then((res) => {});
+    PlayerService.register(data)
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   const handleGenres = (value) => {

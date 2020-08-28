@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Navbar from '../components/navbar';
+import Navbar from '../components/Navbar';
+
 const Profile = (props) => {
   const [editProfile, setEditProfile] = useState(false);
 

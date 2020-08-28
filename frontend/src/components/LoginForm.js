@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
-import TabletopService from '../services/login';
-import { Redirect, useHistory } from 'react-router-dom';
+import LoginService from '../services/login';
+import { useHistory } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
-import Notification from './notification';
+import Notification from './Notification';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -15,13 +15,12 @@ const LoginForm = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    TabletopService.login(email, password)
+    LoginService.login(email, password)
       .then((res) => {
-        history.push('/profile');
+        history.push('/home');
       })
       .catch((err) => {
-        // setErrorMessage(err.response.data.error);
-        console.log(err);
+        setErrorMessage(err.response.data.error);
       });
   };
 
@@ -37,7 +36,7 @@ const LoginForm = () => {
     <Form onSubmit={handleLogin}>
       <Notification message={errorMessage} />
       <Form.Group>
-        <Form.Label>Username</Form.Label>
+        <Form.Label>Email</Form.Label>
         <Form.Control
           onChange={handleEmail}
           value={email}
@@ -53,7 +52,9 @@ const LoginForm = () => {
           placeholder="Enter password"
         />
       </Form.Group>
-      <Button type="submit">Login</Button>
+      <Button className="ml-auto" type="submit">
+        Login
+      </Button>
     </Form>
   );
 };

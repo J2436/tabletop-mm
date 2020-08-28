@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const GroupSchema = mongoose.Schema({
+let groupModel = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -22,7 +22,6 @@ const GroupSchema = mongoose.Schema({
   },
   meetingDateTime: {
     type: Number,
-    required: true,
   },
   system: {
     type: String,
@@ -50,19 +49,18 @@ const GroupSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Player',
+    ref: "Player",
   },
   players: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Player',
+    ref: "Player",
   },
 });
 
-GroupSchema.set('toJSON', {
+groupModel.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -70,4 +68,4 @@ GroupSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Group', GroupSchema);
+module.exports = mongoose.model("groups", groupModel);

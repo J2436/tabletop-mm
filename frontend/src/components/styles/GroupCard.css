@@ -1,0 +1,12 @@
+.group-header {
+  display: flex;
+}
+
+.group-header h4,
+.group-header p {
+  margin: auto 0px auto 0px;
+}
+
+.group-header > .compatability {
+  margin-left: auto;
+}
