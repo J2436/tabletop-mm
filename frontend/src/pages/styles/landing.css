@@ -1,0 +1,19 @@
+.btn-toolbar {
+  display: inline !important;
+}
+
+.btn-toolbar > .btn {
+  margin-right: 0.5rem;
+}
+
+.jumbotron {
+  height: 100vh;
+}
+
+h1 {
+  font-size: 55px !important;
+}
+
+.modal-70w {
+  max-width: 70% !important;
+}

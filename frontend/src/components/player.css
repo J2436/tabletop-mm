@@ -1,0 +1,17 @@
+.profilePic {
+  max-width: 10rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+}
+
+.playerCard {
+  min-width: 18rem !important;
+  max-width: 18rem !important;
+  margin: 1rem;
+}
+
+.name {
+  text-align: center;
+}
+
