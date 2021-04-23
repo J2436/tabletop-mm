@@ -8,41 +8,32 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 const GroupForm = (props) => {
-  const [name, setName] = useState('');
-  const [size, setSize] = useState(0);
-  const [meetingDate, setMeetingDate] = useState('');
-  const [meetingTime, setMeetingTime] = useState('');
-  const [minAge, setMinAge] = useState(0);
-  const [maxAge, setMaxAge] = useState(0);
-  const [system, setSystem] = useState('');
-  const [genre, setGenre] = useState('');
-  const [combat, setCombat] = useState(0);
-  const [sexualContent, setSexualContent] = useState(0);
-  const [humor, setHumor] = useState(0);
-  const [violence, setViolence] = useState(0);
-  const [description, setDescription] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    size: '',
+    meetingDate: '',
+    meetingTime: '',
+    minAge: '',
+    maxAge: '',
+    system: '',
+    genre: '',
+    combat: '',
+    sexualContent: '',
+    humor: '',
+    violence: '',
+    description: '',
+  });
+
   let history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
-    let date = new Date(meetingDate + 'T' + meetingTime);
-
-    const data = {
-      name,
-      size,
-      meetingDateTime: date / 1000,
-      minAge,
-      maxAge,
-      system,
-      genre,
-      combat,
-      sexualContent,
-      humor,
-      violence,
-      description,
+    setFormData({
+      ...formData,
+      date: formData.meetingDate + 'T' + formData.meetingTime,
       players: [],
-    };
+    });
     axios
-      .post('http://localhost:5000/groups/createGroup', data, {
+      .post('http://localhost:5000/groups/createGroup', formData, {
         withCredentials: true,
       })
       .then((res) => {
@@ -53,54 +44,10 @@ const GroupForm = (props) => {
       });
   };
 
-  const handleName = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleSize = (event) => {
-    setSize(event.target.value);
-  };
-
-  const handleMinAge = (event) => {
-    setMinAge(event.target.value);
-    if (minAge > maxAge) {
-      setMaxAge(minAge);
-    }
-  };
-
-  const handleMaxAge = (event) => {
-    setMaxAge(event.target.value);
-  };
-
-  const handleSystem = (event) => {
-    setSystem(event.target.value);
-  };
-
-  const handleGenre = (event) => {
-    setGenre(event.target.value);
-  };
-
-  const handleCombat = (event) => {
-    setCombat(event.target.value);
-  };
-  const handleSexualContent = (event) => {
-    setSexualContent(event.target.value);
-  };
-  const handleHumor = (event) => {
-    setHumor(event.target.value);
-  };
-  const handleViolence = (event) => {
-    setViolence(event.target.value);
-  };
-  const handleDescription = (event) => {
-    setDescription(event.target.value);
-  };
-  const handleDate = (event) => {
-    setMeetingDate(event.target.value);
-  };
-  const handleTime = (event) => {
-    setMeetingTime(event.target.value);
-    console.log(event.target.value);
+  const handleEdit = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+    console.log(formData);
   };
 
   return (
@@ -113,19 +60,28 @@ const GroupForm = (props) => {
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
-              value={name}
-              onChange={handleName}
+              value={formData.name}
+              name="name"
+              onChange={handleEdit}
             ></Form.Control>
           </Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>Meeting Date</Form.Label>
-            <Form.Control type="date" onChange={handleDate}></Form.Control>
+            <Form.Control
+              type="date"
+              name="meetingDate"
+              onChange={handleEdit}
+            ></Form.Control>
           </Form.Group>
           <Form.Group as={Col}>
             <Form.Label> Time </Form.Label>
-            <Form.Control type="time" onChange={handleTime} />
+            <Form.Control
+              type="time"
+              name="meetingDate"
+              onChange={handleEdit}
+            />
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -136,7 +92,8 @@ const GroupForm = (props) => {
               min="2"
               max="10"
               placeholder="2"
-              onChange={handleSize}
+              name="size"
+              onChange={handleEdit}
             />
           </Form.Group>
 
@@ -147,17 +104,19 @@ const GroupForm = (props) => {
               min="13"
               max="99"
               placeholder="13"
-              onChange={handleMinAge}
+              name="minAge"
+              onChange={handleEdit}
             />
           </Form.Group>
           <Form.Group as={Col}>
             <Form.Label>Max Age</Form.Label>
             <Form.Control
               type="number"
-              min={minAge}
+              min={formData.minAge}
               max="99"
-              placeholder={minAge}
-              onChange={handleMaxAge}
+              placeholder={formData.minAge}
+              name="maxAge"
+              onChange={handleEdit}
             />
           </Form.Group>
         </Form.Row>
@@ -165,7 +124,7 @@ const GroupForm = (props) => {
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>Game System</Form.Label>
-            <Form.Control as="select" onChange={handleSystem}>
+            <Form.Control as="select" name="system" onChange={handleEdit}>
               <option>D&D 5e</option>
               <option>Pathfinder</option>
               <option>Dungeon Crawl Classics</option>
@@ -176,7 +135,7 @@ const GroupForm = (props) => {
 
           <Form.Group as={Col}>
             <Form.Label>Genre</Form.Label>
-            <Form.Control as="select" onChange={handleGenre}>
+            <Form.Control as="select" name="genre" onChange={handleEdit}>
               <option>Fantasy</option>
               <option>Sci-Fi</option>
               <option>Steampunk</option>
@@ -188,7 +147,7 @@ const GroupForm = (props) => {
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>Roleplay vs Combat</Form.Label>
-            <Form.Control as="select" onChange={handleCombat}>
+            <Form.Control as="select" name="combat" onChange={handleEdit}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -204,7 +163,11 @@ const GroupForm = (props) => {
 
           <Form.Group as={Col}>
             <Form.Label>Sexual Content</Form.Label>
-            <Form.Control as="select" onChange={handleSexualContent}>
+            <Form.Control
+              as="select"
+              name="sexualContent"
+              onChange={handleEdit}
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -220,7 +183,7 @@ const GroupForm = (props) => {
 
           <Form.Group as={Col}>
             <Form.Label>Humor</Form.Label>
-            <Form.Control as="select" onChange={handleHumor}>
+            <Form.Control as="select" name="humor" onChange={handleEdit}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -235,7 +198,7 @@ const GroupForm = (props) => {
           </Form.Group>
           <Form.Group as={Col}>
             <Form.Label>Violence</Form.Label>
-            <Form.Control as="select" onChange={handleViolence}>
+            <Form.Control as="select" name="violence" onChange={handleEdit}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -252,7 +215,12 @@ const GroupForm = (props) => {
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows="5" onChange={handleDescription} />
+            <Form.Control
+              as="textarea"
+              name="description"
+              rows="5"
+              onChange={handleEdit}
+            />
           </Form.Group>
         </Form.Row>
       </Container>
