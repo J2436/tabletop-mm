@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import './styles/landing.css';
-import Button from 'react-bootstrap/Button';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import { Container, ButtonToolbar, Modal } from 'react-bootstrap';
-import LoginForm from '../components/LoginForm';
-import RegistrationForm from '../components/RegistrationForm';
+import React, { useState, useEffect } from "react";
+import "./styles/landing.css";
+import Button from "react-bootstrap/Button";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import { Container, ButtonToolbar, Modal } from "react-bootstrap";
+import LoginForm from "../components/LoginForm";
+import RegistrationForm from "../components/RegistrationForm";
 
 const Landing = () => {
   const [showLoginModal, setLoginModal] = useState(false);
   const [showRegisterModal, setRegisterModal] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const toggleLoginModal = () => {
     setLoginModal(!showLoginModal);
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   const toggleRegisterModal = () => {
+    console.log(process.env.REACT_APP_API_URL);
     setRegisterModal(!showRegisterModal);
   };
 
@@ -27,7 +28,7 @@ const Landing = () => {
       <Container>
         <h1
           className="text-center"
-          style={{ fontFamily: ['Fjalla One', 'sans-serif'] }}
+          style={{ fontFamily: ["Fjalla One", "sans-serif"] }}
         >
           Tabletop Matchmaker
         </h1>

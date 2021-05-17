@@ -1,6 +1,6 @@
 const playersRouter = require("express").Router();
 const Player = require("../models/player");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 playersRouter.get("/", (req, res) => {
   Player.find({})

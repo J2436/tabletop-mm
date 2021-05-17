@@ -1,5 +1,5 @@
-const axios = require('axios');
-const baseURL = 'http://localhost:5000/login';
+const axios = require("axios");
+const baseURL = `${process.env.REACT_APP_API_URL}/login`;
 
 const login = (email, password) => {
   return axios.post(baseURL, { email, password }, { withCredentials: true });
@@ -7,11 +7,11 @@ const login = (email, password) => {
 
 // Check if user is logged in by checking if they have a valid jwt token
 const isLoggedIn = () => {
-  return axios.get(baseURL + '/isLoggedIn', { withCredentials: true });
+  return axios.get(baseURL + "/isLoggedIn", { withCredentials: true });
 };
 
 const logout = () => {
-  axios.get(baseURL + '/logout', { withCredentials: true });
+  axios.get(baseURL + "/logout", { withCredentials: true });
 };
 
 export default {

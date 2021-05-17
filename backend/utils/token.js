@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-
 const getTokenFrom = (req) => {
   if (req.get("cookie") === undefined) {
     return null;

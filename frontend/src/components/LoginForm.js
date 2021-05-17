@@ -1,26 +1,27 @@
-import React, { useState, useContext } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { LinkContainer } from 'react-router-bootstrap';
-import LoginService from '../services/login';
-import { useHistory } from 'react-router-dom';
-import { Alert } from 'react-bootstrap';
-import Notification from './Notification';
+import React, { useState, useContext } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { LinkContainer } from "react-router-bootstrap";
+import LoginService from "../services/login";
+import { useHistory } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+import Notification from "./Notification";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
 
   const handleLogin = (event) => {
     event.preventDefault();
     LoginService.login(email, password)
       .then((res) => {
-        history.push('/home');
+        history.push("/home");
       })
       .catch((err) => {
-        setErrorMessage(err.response.data.error);
+        console.log(err);
+        //setErrorMessage(err.response.data.error);
       });
   };
 

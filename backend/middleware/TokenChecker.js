@@ -4,7 +4,7 @@ module.exports = function TokenChecker(req, res, next) {
   if (req.user) next();
 
   if (req.get("cookie") === undefined) {
-    res.send(401, "Unauthorized");
+    res.status(401).send("Unauthorized");
   }
 
   const cookies = req.get("cookie").split(";");
