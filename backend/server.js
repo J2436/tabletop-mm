@@ -22,11 +22,8 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: true }));
 app.use(morgan("tiny"));
 app.use("/login", loginRouter);
-//app.use(TokenChecker);
+app.use(TokenChecker);
 app.use("/players", playersRouter);
 app.use("/groups", groupsRouter);
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
 app.listen(process.env.PORT || 8080);
 console.log(`Server listening on ${config.PORT}`);

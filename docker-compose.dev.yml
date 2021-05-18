@@ -13,3 +13,11 @@ services:
       env_file:
         - ./backend/.env
       command: npm run dev
+    frontend:
+      build:
+        context: ./frontend
+      volumes:
+        - ./frontend/:/app
+      env_file:
+        - ./frontend/.env
+      command: npm run start

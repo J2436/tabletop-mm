@@ -9,29 +9,29 @@ import Notification from "./Notification";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    LoginService.login(email, password)
+    LoginService.login(formData.email, formData.password)
       .then((res) => {
         history.push("/home");
       })
       .catch((err) => {
         console.log(err);
-        //setErrorMessage(err.response.data.error);
       });
   };
 
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-  };
+  const handleEdit = (event) => {
+    const {name, value} = event.target;
+    setFormData({...formData, [name]: value })
+  }
 
   return (
     <Form onSubmit={handleLogin}>
@@ -39,17 +39,18 @@ const LoginForm = () => {
       <Form.Group>
         <Form.Label>Email</Form.Label>
         <Form.Control
-          onChange={handleEmail}
-          value={email}
-          type="email"
+          onChange={handleEdit}
+          value={formData.email}
+	  name="email"
           placeholder="Enter email"
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Password</Form.Label>
         <Form.Control
-          onChange={handlePassword}
-          type="password"
+          onChange={handleEdit}
+	  name="password"
+	  type="password"
           placeholder="Enter password"
         />
       </Form.Group>

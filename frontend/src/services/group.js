@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:5000/groups";
+const baseURL = `${process.env.REACT_APP_API_URL}/groups`;
 
 const getJoinedGroups = () => {
   return axios.get(baseURL + "/joinedGroups", { withCredentials: true });

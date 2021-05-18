@@ -3,4 +3,10 @@ services:
     api:
       ports: 
         - "8080:8080" 
-        
+    frontend:
+      build:
+        context: ./frontend
+      stdin_open: true
+      ports:
+        - "3000:3000"
+

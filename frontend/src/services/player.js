@@ -1,5 +1,5 @@
 const axios = require('axios');
-const baseURL = 'http://localhost:5000/players';
+const baseURL = `${process.env.REACT_APP_API_URL}/players`;
 
 const getPlayers = () => {
   return axios.get(baseURL + '/players');
