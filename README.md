@@ -4,7 +4,7 @@
 ### Development
 * Docker Compose (in root directory) 
 
-  `docker-compose -f docker-compose.yml -f docker-compose.dev.yml --build -d up`
+  `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d`
 #### Individual Docker commands 
 * `docker run -v \<PathToHostSrc>:\<PathToWorkDir>:ro --env-file \<PathToEnvFile> -p \<LocalPort>:\<ContainerPort> --name \<ContainerName> \<ImageName>`
 ### Production
