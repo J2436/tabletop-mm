@@ -1,4 +1,5 @@
 if (process.env.NODE_ENV === "development") {
+  console.log("DOTENV has run and we are in development mode")
   require("dotenv").config();
 }
 

@@ -6,8 +6,9 @@ module.exports = function TokenChecker(req, res, next) {
   if (req.get("cookie") === undefined) {
     res.status(401).send("Unauthorized");
   }
-
+  
   const cookies = req.get("cookie").split(";");
+  console.log(`COOKIE: ${req.cookies['jwt']}`);
   let token = "";
   cookies.forEach((cookie) => {
     if (cookie.indexOf("jwt") >= 0) {

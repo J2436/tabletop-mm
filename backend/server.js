@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 const mongoose = require("mongoose");
 const config = require("./utils/config");
@@ -8,8 +9,9 @@ const groupsRouter = require("./controllers/groups");
 const playersRouter = require("./controllers/players");
 const loginRouter = require("./controllers/login");
 const TokenChecker = require("./middleware/TokenChecker");
+console.log(process.env)
 mongoose
-  .connect(config.MONGODB_URI, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -19,6 +21,7 @@ mongoose
   );
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ credentials: true, origin: true }));
 app.use(morgan("tiny"));
 app.use("/login", loginRouter);

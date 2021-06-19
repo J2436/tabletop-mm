@@ -31,10 +31,15 @@ loginRouter.post("/", async (req, res) => {
 
 loginRouter.get("/isLoggedIn", (req, res) => {
   const token = getTokenFrom(req);
+  if ( token == null ) {
+    res.status(200).send("Not logged in")
+  } else {
+
   const decodedToken = jwt.verify(token, process.env.SECRET);
   if (decodedToken) {
     res.send(decodedToken);
   } else res.status(404).send();
+}
 });
 
 loginRouter.get("/logout", (req, res) => {
