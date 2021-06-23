@@ -10,6 +10,15 @@ playersRouter.get("/", (req, res) => {
     .catch((err) => res.send(err));
 });
 
+// Get the player from the cookie of the incoming request
+playersRouter.get("/currentPlayer", (req, res) => {
+  Player.find({ _id: { $eq: req.user.id } })
+    .then((data) => {
+      res.send(data[0]);
+    })
+    .catch((err) => res.status(404).send());
+});
+
 playersRouter.get("/playersExceptUser", (req, res) => {
   Player.find({ _id: { $ne: req.user.id } })
     .then((data) => {

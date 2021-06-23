@@ -1,15 +1,15 @@
-import React from 'react';
-import Nav from 'react-bootstrap/Nav';
-import { LinkContainer } from 'react-router-bootstrap';
-import LoginService from '../services/login';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import Nav from "react-bootstrap/Nav";
+import { LinkContainer } from "react-router-bootstrap";
+import LoginService from "../services/login";
+import { useHistory } from "react-router-dom";
 
 const Navbar = () => {
   let history = useHistory();
 
   const handleLogout = () => {
     LoginService.logout().then((res) => {
-      history.push('/');
+      history.push("/");
     });
   };
 

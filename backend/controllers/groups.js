@@ -8,7 +8,9 @@ groupsRouter.get("/", (req, res) => {
     .then((data) => {
       res.send(data);
     })
-    .catch((err) => {});
+    .catch((err) => {
+      res.status(401).send(err);
+    });
 });
 
 groupsRouter.get("/ownedGroups", (req, res) => {
@@ -29,6 +31,7 @@ groupsRouter.get("/joinedGroups", (req, res) => {
     .catch((err) => res.status(404).send(err));
 });
 
+// Get all groups that the current user hasn't joined yet
 groupsRouter.get("/unjoinedGroups", async (req, res) => {
   let unjoined = await Group.find({
     players: { $nin: [req.user.id] },
@@ -36,6 +39,8 @@ groupsRouter.get("/unjoinedGroups", async (req, res) => {
   });
   res.send(unjoined);
 });
+
+groupsRouter.get("/", async (req, res) => {});
 
 groupsRouter.post("/createGroup", async (req, res) => {
   const user = await Player.findById(req.user.id);
@@ -52,7 +57,6 @@ groupsRouter.post("/createGroup", async (req, res) => {
 
 groupsRouter.post("/joinGroup", async (req, res) => {
   const group = await Group.findById(req.body.groupID);
-
   if (group) {
     let updatedGroup = await Group.findByIdAndUpdate(
       req.body.groupID,
@@ -71,7 +75,7 @@ groupsRouter.post("/leaveGroup", (req, res) => {
     { $pull: { players: req.user.id } },
     { useFindAndModify: false }
   ).then((group) => {
-    res.send({ message: "successfully left group" });
+    res.send({ message: `successfully left ${group.name}` });
   });
 });
 

@@ -1,11 +1,12 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
 export const ProtectedRoute = ({
   component: Component,
   authenticated,
   ...rest
 }) => {
+  console.log(authenticated);
   return (
     <Route
       {...rest}

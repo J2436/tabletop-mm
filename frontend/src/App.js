@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Groups from './pages/Groups';
-import Profile from './pages/Profile';
-import Players from './pages/Players';
-import Landing from './pages/Landing';
-import Home from './pages/Home';
-import GroupForm from './components/GroupForm';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { ProtectedRoute } from './ProtectedRoute';
-import LoginService from './services/login';
+import React, { useState, useEffect, useReducer } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Groups from "./pages/Groups";
+import Profile from "./pages/Profile";
+import Players from "./pages/Players";
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import GroupForm from "./components/GroupForm";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { ProtectedRoute } from "./ProtectedRoute";
+import LoginService from "./services/login";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     LoginService.isLoggedIn()
-      .then(() => setAuthenticated(true))
+      .then(() => {
+        setAuthenticated(true);
+      })
       .catch(() => setAuthenticated(false));
   }, []);
 
@@ -50,7 +52,7 @@ const App = () => {
         <Route exact path="/">
           <Landing authenticated={authenticated} />
         </Route>
-        <Route path="*" component={() => '404 NOT FOUND'} />
+        <Route path="*" component={() => "404 NOT FOUND"} />
       </Switch>
     </Router>
   );

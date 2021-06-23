@@ -1,8 +1,8 @@
-import React from 'react';
-import { Alert } from 'react-bootstrap';
+import React from "react";
+import { Alert } from "react-bootstrap";
 
 const Notification = ({ message }) => {
-  if (message === '') {
+  if (message === "") {
     return null;
   } else {
     return (

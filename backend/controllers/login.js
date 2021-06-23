@@ -11,7 +11,7 @@ loginRouter.post("/", async (req, res) => {
     user === null ? false : await bcrypt.compare(body.password, user.password);
 
   if (!(user && passwordCorrect)) {
-    return res.status(401).json({ error: "Invalid email or password" });
+    return res.status(401).send("Invalid Email or Password");
   } else {
     const userFormToken = {
       email: user.email,
@@ -31,15 +31,14 @@ loginRouter.post("/", async (req, res) => {
 
 loginRouter.get("/isLoggedIn", (req, res) => {
   const token = getTokenFrom(req);
-  if ( token == null ) {
-    res.status(200).send("Not logged in")
+  if (token == null) {
+    res.status(200).send("Not logged in");
   } else {
-
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (decodedToken) {
-    res.send(decodedToken);
-  } else res.status(404).send();
-}
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (decodedToken) {
+      res.send(decodedToken);
+    } else res.status(404).send();
+  }
 });
 
 loginRouter.get("/logout", (req, res) => {

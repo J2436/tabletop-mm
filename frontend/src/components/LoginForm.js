@@ -1,19 +1,15 @@
 import React, { useState, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { LinkContainer } from "react-router-bootstrap";
 import LoginService from "../services/login";
 import { useHistory } from "react-router-dom";
-import { Alert } from "react-bootstrap";
 import Notification from "./Notification";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   let history = useHistory();
 
@@ -24,14 +20,15 @@ const LoginForm = () => {
         history.push("/home");
       })
       .catch((err) => {
+        //setErrorMessage(err);
         console.log(err);
       });
   };
 
   const handleEdit = (event) => {
-    const {name, value} = event.target;
-    setFormData({...formData, [name]: value })
-  }
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <Form onSubmit={handleLogin}>
@@ -41,7 +38,7 @@ const LoginForm = () => {
         <Form.Control
           onChange={handleEdit}
           value={formData.email}
-	  name="email"
+          name="email"
           placeholder="Enter email"
         />
       </Form.Group>
@@ -49,8 +46,8 @@ const LoginForm = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           onChange={handleEdit}
-	  name="password"
-	  type="password"
+          name="password"
+          type="password"
           placeholder="Enter password"
         />
       </Form.Group>

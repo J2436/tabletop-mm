@@ -1,109 +1,58 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import PlayerService from '../services/player';
-import './styles/RegistrationForm.css';
+import React, { useState } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import PlayerService from "../services/player";
+import "./styles/RegistrationForm.css";
 
 const RegistrationForm = () => {
-  const [screenName, setScreenName] = useState('');
-  const [email, setEmail] = useState('');
-  const [sizePref, setSizePref] = useState(1);
-  const [yoe, setYoe] = useState(0);
-  const [campaignsPlayed, setCampaignsPlayed] = useState(0);
-  const [password, setPassword] = useState('');
-  const [age, setAge] = useState(13);
-  const [combat, setCombat] = useState(1);
-  const [sexualContent, setSexualContent] = useState(1);
-  const [humor, setHumor] = useState(1);
-  const [violence, setViolence] = useState(1);
-  const [systemsPref, setSystemsPref] = useState([0, 4]);
-  const [genresPref, setGenresPref] = useState([0, 4]);
+  const [formData, setFormData] = useState({
+    screenName: "",
+    email: "",
+    password: "",
+    age: 18,
+    campaignsPlayed: 0,
+    yoe: 0,
+    sizePref: 2,
+    combat: 1,
+    sexualContent: 1,
+    humor: 1,
+    violence: 1,
+    systemsPref: [],
+    genresPref: [],
+  });
+
+  const handleEdit = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleRegister = (event) => {
-    let genres = ['Fantasy', 'Sci-Fi', 'Steampunk', 'Horror', 'Gothic'];
+    let genres = ["Fantasy", "Sci-Fi", "Steampunk", "Horror", "Gothic"];
     let systems = [
-      'D&D 5e',
-      'Pathfinder',
-      'Dungeon Crawl Classics',
-      'Call of Cthulu',
-      'Warhammer Fantasy',
+      "D&D 5e",
+      "Pathfinder",
+      "Dungeon Crawl Classics",
+      "Call of Cthulu",
+      "Warhammer Fantasy",
     ];
 
-    let selectedSystems = systemsPref.map((selection) => systems[selection]);
-    let selectedGenres = genresPref.map((selection) => genres[selection]);
+    setFormData({
+      ...formData,
+      systemsPref: formData.systemsPref.map((selection) => systems[selection]),
+      genresPref: formData.genresPref.map((selection) => genres[selection]),
+    });
 
-    let data = {
-      screenName,
-      email,
-      password,
-      age,
-      campaignsPlayed,
-      yoe,
-      sizePref,
-      combat,
-      sexualContent,
-      humor,
-      violence,
-      systemsPref: selectedSystems,
-      genresPref: selectedGenres,
-    };
-    PlayerService.register(data)
-      .then((res) => {})
-      .catch((err) => {});
-  };
-
-  const handleGenres = (value) => {
-    setGenresPref(value);
-  };
-
-  const handleSystems = (value) => {
-    setSystemsPref(value);
-  };
-
-  const handleScreenName = (event) => {
-    setScreenName(event.target.value);
-  };
-
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleAge = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleCombat = (event) => {
-    setCombat(event.target.value);
-  };
-
-  const handleViolence = (event) => {
-    setViolence(event.target.value);
-  };
-
-  const handleHumor = (event) => {
-    setHumor(event.target.value);
-  };
-
-  const handleSexualContent = (event) => {
-    setSexualContent(event.target.value);
-  };
-
-  const handleSizePref = (event) => {
-    setSizePref(event.target.value);
-  };
-  const handleYoe = (event) => {
-    setYoe(event.target.value);
-  };
-  const handleCampaignsPlayed = (event) => {
-    setCampaignsPlayed(event.target.value);
+    PlayerService.register(formData)
+      .then((res) => {
+        // TODO: Snackbar for successful registration
+      })
+      .catch((err) => {
+        console.log(err)
+      });
   };
 
   return (
@@ -114,9 +63,10 @@ const RegistrationForm = () => {
             <Form.Label> Email</Form.Label>
             <Form.Control
               required
-              onChange={handleEmail}
-              value={email}
+              onChange={handleEdit}
+              value={formData.email}
               type="email"
+              name="email"
               placeholder="Enter email"
             />
           </Form.Group>
@@ -125,9 +75,10 @@ const RegistrationForm = () => {
             <Form.Label> Password </Form.Label>
             <Form.Control
               required
-              onChange={handlePassword}
-              value={password}
+              onChange={handleEdit}
+              value={formData.password}
               type="password"
+              name="password"
               placeholder="Enter password"
             />
           </Form.Group>
@@ -138,9 +89,10 @@ const RegistrationForm = () => {
             <Form.Label> Screen Name</Form.Label>
             <Form.Control
               required
-              onChange={handleScreenName}
-              value={screenName}
+              onChange={handleEdit}
+              value={formData.screenName}
               type="text"
+              name="screenName"
               placeholder="Enter screen name"
             />
           </Form.Group>
@@ -149,9 +101,10 @@ const RegistrationForm = () => {
             <Form.Label>Age</Form.Label>
             <Form.Control
               required
-              onChange={handleAge}
-              value={age}
+              onChange={handleEdit}
+              value={formData.age}
               type="number"
+              name="age"
               min="13"
               max="99"
             />
@@ -165,8 +118,9 @@ const RegistrationForm = () => {
               type="number"
               min="0"
               max="10"
-              onChange={handleSizePref}
-              value={sizePref}
+              onChange={handleEdit}
+              value={formData.sizePref}
+              name="sizePref"
             />
           </Form.Group>
 
@@ -176,8 +130,9 @@ const RegistrationForm = () => {
               type="number"
               min="0"
               max="999"
-              onChange={handleCampaignsPlayed}
-              value={campaignsPlayed}
+              onChange={handleEdit}
+              value={formData.campaignsPlayed}
+              name="campaignsPlayed"
             ></Form.Control>
           </Form.Group>
 
@@ -187,8 +142,9 @@ const RegistrationForm = () => {
               type="number"
               min="0"
               max="99"
-              onChange={handleYoe}
-              value={yoe}
+              onChange={handleEdit}
+              value={formData.yoe}
+              name="yoe"
             ></Form.Control>
           </Form.Group>
         </Form.Row>
@@ -200,7 +156,10 @@ const RegistrationForm = () => {
               <ToggleButtonGroup
                 className="systems-btns"
                 type="checkbox"
-                onChange={handleSystems}
+                onChange={(selections) => {
+                  setFormData({ ...formData, systemsPref: selections });
+                }}
+                name="systemsPref"
               >
                 <ToggleButton value={0}> D&D 5e </ToggleButton>
                 <ToggleButton value={1}> Pathfinder </ToggleButton>
@@ -218,7 +177,10 @@ const RegistrationForm = () => {
               <ToggleButtonGroup
                 className="generes-btns"
                 type="checkbox"
-                onChange={handleGenres}
+                name="genresPref"
+                onChange={(selections) => {
+                  setFormData({ ...formData, genresPref: selections });
+                }}
               >
                 <ToggleButton value={0}> Fantasy </ToggleButton>
                 <ToggleButton value={1}> Sci-Fi </ToggleButton>
@@ -237,8 +199,9 @@ const RegistrationForm = () => {
               type="number"
               min="1"
               max="10"
-              value={combat}
-              onChange={handleCombat}
+              value={formData.combat}
+              name="combat"
+              onChange={handleEdit}
             />
           </Form.Group>
           <Form.Group as={Col}>
@@ -247,8 +210,9 @@ const RegistrationForm = () => {
               type="number"
               min="1"
               max="10"
-              value={sexualContent}
-              onChange={handleSexualContent}
+              value={formData.sexualContent}
+              name="sexualContent"
+              onChange={handleEdit}
             />
           </Form.Group>
           <Form.Group as={Col}>
@@ -257,8 +221,9 @@ const RegistrationForm = () => {
               type="number"
               min="1"
               max="10"
-              value={humor}
-              onChange={handleHumor}
+              value={formData.humor}
+              name="humor"
+              onChange={handleEdit}
             />
           </Form.Group>
           <Form.Group as={Col}>
@@ -267,8 +232,9 @@ const RegistrationForm = () => {
               type="number"
               min="1"
               max="10"
-              value={violence}
-              onChange={handleViolence}
+              value={formData.violence}
+              name="violence"
+              onChange={handleEdit}
             />
           </Form.Group>
         </Form.Row>
